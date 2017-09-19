@@ -360,12 +360,12 @@ TCP是面向连接的，可靠的，传输大量数据，速度慢。UDP相反�
 
 ## *数据库基本语法*
 
-###HAVING和WHERE对于分组查询的区别
+### HAVING和WHERE对于分组查询的区别
 HAVING子句对GROUP BY子句设置条件的方式与WHERE子句和SELECT语句交互的方式类似。WHERE子句搜索条件在进行分组操作之前应用；而HAVING搜索条件在进行分组操作之后应用。HAVING语法与WHERE语法类似，但HAVING可以包含聚合函数。HAVING子句可以引用选择列表中出现的任意项。
 
-###Full outer join，left join, right join，inner join区别([参考这里](http://www.cnblogs.com/logon/p/3748020.html))
+### Full outer join，left join, right join，inner join区别([参考这里](http://www.cnblogs.com/logon/p/3748020.html))
 
-####外连接
+#### 外连接
 
 1.概念：包括左向外联接、右向外联接或完整外部联接
 
@@ -376,16 +376,16 @@ HAVING子句对GROUP BY子句设置条件的方式与WHERE子句和SELECT语句�
 右向外联接是左向外联接的反向联接。将返回右表的所有行。如果右表的某行在左表中没有匹配行，则将为左表返回空值。
 
 4.完整外部联接:full join 或 full outer join，完整外部联接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。
-####内连接
+#### 内连接
 1.概念：内联接是用比较运算符比较要联接列的值的联接
 
 2.内连接：join 或 inner join，只返回符合条件的列。
 
-####交叉连接
+#### 交叉连接
 1.概念：没有 WHERE 子句的交叉联接将产生联接所涉及的表的笛卡尔积。第一个表的行数乘以第二个表的行数等于笛卡尔积结果集的大小。
 
 2.交叉连接：cross join 
-###查询([更多语句参考此处](http://blog.csdn.net/zhanghaotian2011/article/details/8904365))
+### 查询([更多语句参考此处](http://blog.csdn.net/zhanghaotian2011/article/details/8904365))
 
 * 查询数据库表最后一条记录(ID自增)
 ```
