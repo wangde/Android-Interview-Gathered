@@ -60,12 +60,6 @@ app启动流程 www.jianshu.com/p/a5532ecc8377
   1. 重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销。
   2. 有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞线程。
   3. 能对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。
-### *请解释sleep()和wait()区别？*
-* sleep()是Thread类的定义方法，wait()是Object类定义的方法;
-* sleep()可以设置休眠时间，时间一到自动唤醒，而wait()需要等待notify()进行唤醒
-* sleep()方法正在执行的线程主动让出CPU（然后CPU就可以去执行其他任务），在sleep指定时间后CPU再回到该线程继续往下执行(注意：sleep方法只让出了CPU，而并不会释放同步资源锁！！！)；
-* wait()方法则是指当前线程让自己暂时退让出同步资源锁，以便其他正在等待该资源的线程得到该资源进而运行，只有调用了notify()方法，之前调用wait()的线程才会解除wait状态，可以去参与竞争同步资源锁，进而得到执行。（注意：notify的作用相当于叫醒睡着的人，而并不会给他分配任务，就是说notify只是让之前调用wait的线程有权利重新参与线程的调度
-
 Android中线程池源自Java的Executor接口。真正的线程池实现为ThreadPoolExecutor。
 ThreadPoolExecutor它的构造方法提供了一系列参数来配置线程池。
 corePoolSize：线程池核心线程数量
@@ -84,6 +78,12 @@ Executors.newCachedThreadPool方法创建,它一种线程数量不固定的线�
 Executors.newScheduledThreadPool方法创建，它的核心数量是固定的，而非核心数量没有限制。当非核心线程闲置是会立刻回收。
   4. **SingleThreadExecutor**
 Executors.newSingleThreadExecutor方法创建，它只要一个核心线程，能确保所有任务都在一个线程中按顺序执行。它的意义在于统一所有的外界任务到一个线程中。是这些线程任务之间不需要处理线程同步的问题。
+
+### *请解释sleep()和wait()区别？*
+* sleep()是Thread类的定义方法，wait()是Object类定义的方法;
+* sleep()可以设置休眠时间，时间一到自动唤醒，而wait()需要等待notify()进行唤醒
+* sleep()方法正在执行的线程主动让出CPU（然后CPU就可以去执行其他任务），在sleep指定时间后CPU再回到该线程继续往下执行(注意：sleep方法只让出了CPU，而并不会释放同步资源锁！！！)；
+* wait()方法则是指当前线程让自己暂时退让出同步资源锁，以便其他正在等待该资源的线程得到该资源进而运行，只有调用了notify()方法，之前调用wait()的线程才会解除wait状态，可以去参与竞争同步资源锁，进而得到执行。（注意：notify的作用相当于叫醒睡着的人，而并不会给他分配任务，就是说notify只是让之前调用wait的线程有权利重新参与线程的调度
 
 ## 2. JVM内存空间分区（[参考这里](http://blog.csdn.net/a910626/article/details/52318590)）
 - **程序计数器(Program Counter Register):** 程序计数器是当前线程所执行字节码的行号指示器
