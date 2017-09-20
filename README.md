@@ -1,22 +1,32 @@
 
 # Android相关
 ---
-## 事件传递流程
-## Android OOM 处理
-## 进程保活 ([参考这里](https://segmentfault.com/a/1190000006251859))
-* 提供进程优先级，降低进程被杀死的概率
-  * 利用 Activity 提升权限
-  * 利用 Notification 提升权限(startForeground)
-* 在进程被杀死后，进行拉活
-  * 利用系统广播拉活
-  * 利用第三方应用广播拉活
-  * 利用系统Service机制拉活(onStartCommand()中返回Service.START_STICKY)
-  * 利用Native进程拉活(利用 Linux 中的 fork 机制创建 Native 进程，在 Native 进程中监控主进程的存活，当主进程挂掉后，在 Native 进程中立即对主进程进行拉活)
-  * 利用账号同步机制拉活
-  
-## 布局的适配
-## 四种启动模式
-## 性能的优化
+## Activity和Fragment的生命周期
+![](http://bmob-cdn-3365.b0.upaiyun.com/2016/07/15/a47f448b4077cefe80571168e3f03eef.png)
+
+## 加速Activity启动
+* 精简onCreate中的代码
+* 将耗时操作放到后台线程
+* 优化布局文件（ Hierarchy Viewer， Layoutopt）
+* 缓存ListView
+
+## Android多线程的几种方式
+* Handler.sendXXXMessage()
+* Handler.post(Runnable)
+* Activity.runOnUIThread(Runnable)
+* View.post(Runnable)
+* AsyncTask
+
+## 布局的优化
+* HierarchyViewer查看Layout层次
+* <include\> 标签重用一些比较复杂的组件
+* <merge\> 标签减少层次,避免嵌套过深的情况发生
+* 使用ViewStub减少隐藏View的绘制
+
+## Android的几种缓存方法
+* 内存缓存（使用LruCahe类，least recent used, 通过键值对的形式将对象储存在内存中，满了以后自动提出最不常用的对象）
+* 磁盘缓存（使用DiskLurCache，数据库SQLite缓存，文件缓存）
+
 ## Android 屏幕适配
 ### *两个重要单位：*
 * 密度无关像素(density-independent pixel, dp or dip):与终端上的实际物理像素点无关,可以保证在不同屏幕像素密度的设备上显示相同的效果。Android开发时用dp而不是px单位设置图片大小，是Android特有的单位。
@@ -27,10 +37,108 @@
 一个图片归纳解决办法,转自[这里](http://www.jianshu.com/p/ec5a1a30694b)：
 ![归纳解决办法](http://upload-images.jianshu.io/upload_images/944365-ced9745859537daf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+## 事件传递流程
+TODO
+
+## 自定义View
+* 继承View，至少自定义两个构造函数
+* 重写onMeasure方法：widthMeasureSpec中指定模式UNSPECIFIED，EXACTLY，AT_MOST，MATCH_PARENT对应EXACTLY、WRAP_CONTENT对应AT_MOST
+* 重写onDraw：使用canvas和Paint类做图。
+* 在res/values/styles.xml自定义属性
+
+## Android OOM 处理
+
+**原因：[参考](http://hanhailong.com/2015/12/27/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/)**
+* 单例造成的内存泄漏 (单例获取Activity的引用)
+* 非静态内部类创建静态实例.(那为啥要用内部类？因为使用内部类能解决多继承问题)
+* Handler造成的内存泄漏(静态+弱引用+removeCallbacksAndMessages)
+* 线程造成的内存泄漏
+* 图片的处理
+* 资源未关闭造成的内存泄漏(BraodcastReceiver，ContentObserver，File，Cursor，Stream，Bitmap)
+
+**发现：[参考](https://segmentfault.com/a/1190000006884310)**
+* 反复操作观察内存变化
+* 通过代码检测Activity泄漏
+* 利用工具检测，如LeakCanary
+* adb shell dumpsys meminfo
+* 通过Capture分析.hprof文件
+
+**处理：**
+* 图片处理优化
+* 使用保守的Service （IntentSevice执行完任务后自动关闭）
+* 当视图变为隐藏状态后释放内存
+* 内存资源紧张时释放内存(onTrimMemory()回调方法)
+* 使用优化后的数据容器(SparseArray)
+* 知道内存的开销(类500字节, 实例12到16字节,char 16bits　byte 8bits short 16bits int 32bits　long 64bits float 32bits double 64bits)
+
+## 性能的优化
+**卡顿原因：**
+* 内存泄漏导致内存占用较高，导致JVM频繁触发GC
+* UI线程做耗时任务
+* UI OverDraw
+
 ## Handler机制
 Handler，Looper，MessageQueue，Message，Messenger
 
-app启动流程 www.jianshu.com/p/a5532ecc8377
+## Binder机制
+TODO
+
+## Volley机制（[参考这里](http://huachao1001.github.io/article.html?MfvbNAAH)）
+通过一个RequestQueue维护所有网络请求。具体是：
+1, RequestQueue的add函数接收到请求，判断其是否允许被缓存，如果不允许，则加入网络请求列队。
+2, 如果允许缓存，则判断等待列队中是否有相同地址的请求，如果有，就加入等待列队，等待列队在每完成一次请求后访问，移除等待列队中相同的请求，并讲剩余的请求加入缓存列队。
+3 如果没有相同的请求，则直接加入到缓存列队。缓存列队执行请求时先检查是否超时，如果超时则通过网络请求，如果未超时直接读取缓存。
+![](http://bmob-cdn-3365.b0.upaiyun.com/2016/07/23/7cd35e7d40a290e48068bf7cc187e203.png)
+
+## GreenDao机制
+
+## Picasso机制
+into会检查当前是否是在主线程上执行。
+如果我们没有提供一个图片资源并且有设置placeholder，那么就会把我们设置的placeholder显示出来，并中断执行。
+接下来就是创建了一个Request对象，我们在前面做得一些设置都会被封装到这个Request对象里面。
+检查我们要显示的图片是否可以直接在缓存中获取，如果有就直接显示出来好了。
+缓存没命中，那就只能费点事把源图片down下来了。这个过程是异步的，并且通过一个Action来完成请求前后的衔接工作。
+![](http://www.trinea.cn/wp-content/uploads/2015/10/overall-design-picasso.jpg?x24892)
+
+## 进程保活 ([参考这里](https://segmentfault.com/a/1190000006251859))
+
+进程等级：
+* 前台进程 (Foreground process)
+* 可见进程 (Visible process)
+* 服务进程 (Service process)
+* 后台进程 (Background process)
+* 空进程 (Empty process)
+
+进程保活方法：
+* 提供进程优先级，降低进程被杀死的概率
+  * 利用 Activity 提升权限
+  * 利用 Notification 提升权限(startForeground)
+* 在进程被杀死后，进行拉活
+  * 利用系统广播拉活
+  * 利用第三方应用广播拉活
+  * 利用系统Service机制拉活(onStartCommand()中返回Service.START_STICKY)
+  * 利用Native进程拉活(利用 Linux 中的 fork 机制创建 Native 进程，在 Native 进程中监控主进程的存活，当主进程挂掉后，在 Native 进程中立即对主进程进行拉活)
+  * 利用账号同步机制拉活
+
+## 四种启动模式
+**android:launchMode=:** 
+standard(默认)、singleTop、singleTask、singleInstance
+
+**FLAG:**
+* **FLAG_ACTIVITY_NEW_TASK：** 与singleTask相同。
+* **FLAG_ACTIVITY_SINGLE_TOP：** 与singleTop相同。
+* **FLAG_ACTIVITY_CLEAR_TOP：** 清空目标Activity上层所有Activity。如果未设置launchMode（即默认），会清空包括当前Activity及其上面的activites，然后重新创建目标Activity。
+* **FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS：** 具有这个标记的Activity不会出现在任务管理器的列表中，它等同于在XML中指定Activity的属性：android:excudeFromRecents="true"
+
+## 三种动画
+* 帧动画 FrameAnimation:通过顺序的播放排列好的图片来实现
+* 补间动画 TweenAnimation: 给出两个关键帧，在给定的时间内在两个关键帧间渐变(Alpha、Scale、Translate和Rotate)。
+* 属性动画 Property Animation:插值器根据时间流逝计算当前属性值改变百分比以不断改变属性值。
+
+## Android长连接
+* 客户端不断的查询服务器，检索新内容，也就是所谓的pull 或者轮询方式　
+* 客户端和服务器之间维持一个TCP/IP长连接，服务器向客户端push　
+* SMS的推送方式:服务器有新内容时，发送一条短信给客户端，客户端收到后从服务器中下载新内容
 
 ## Android缓存
 ### 网络缓存（作业帮面试）([参考这里](https://www.2cto.com/kf/201502/376042.html))
