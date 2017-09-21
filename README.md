@@ -77,6 +77,12 @@ TODO
 * UI线程做耗时任务
 * UI OverDraw
 
+## 进程/线程间通信：[参考1](https://my.oschina.net/u/248570/blog/53226) [ 参考2](http://www.jianshu.com/p/ac16f9702d68)
+Linux上进程间通信: 套接口（Socket）, 管道（Pipe）,命名管道（named pipe）, 信号（Signal）, 信号量（semaphore）, 消息（Message）队列, 共享内存, 内存映射（mapped memory）
+Android的进程间通信大多基于Bindler，参见下面Binder机制。
+Android中线程间通信：共享变量（Sharepreferrence），使用管道流（Pipes），handle机制，runOnUiThread(Runnable)，View.postDelay(Runnable)
+，广播
+
 ## Handler机制
 Handler，Looper，MessageQueue，Message，Messenger
 
@@ -160,6 +166,9 @@ standard(默认)、singleTop、singleTask、singleInstance
 ### *volatile和Synchronized区别:*
 * **volatile:**  它所修饰的变量不保留拷贝，直接访问主内存中的(保证可见性)。
 * **synchronized:** 保证在同一时刻最多只有一个线程执行该段代码(保证原子性)。
+### *ReetrankLock与synchronized比较*[参考](http://blog.csdn.net/ns_code/article/details/17487337)
+* synchronized阻塞同步，挂起线程和恢复线程的操作消耗性能大，ReentrendLock非阻塞同步,消耗小
+* ReentrendLock等待可中断，可实现公平锁，锁可以绑定多个条件。
 ### *原子性与可见性:*([参考这里](https://my.oschina.net/wangnian/blog/668490))
 * **原子性：** 即一个操作或者多个操作 要么全部执行并且执行的过程不会被任何因素打断，要么就都不执行。
 * **可见性:** 是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。
@@ -218,6 +227,7 @@ Executors.newSingleThreadExecutor方法创建，它只要一个核心线程，�
 * **软引用：** 如果一个对象（如 s）只具有软引用，则内存空间足够，垃圾回收器就不会回收它；如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。
 * **弱引用：** 弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。
 * **虚引用：** 虚引用"顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收。 虚引用主要用来跟踪对象被垃圾回收器回收的活动。
+
 
 ## 5. JAVA的多态(百度作业帮面试，融360面试)
 ### 什么是多态
