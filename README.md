@@ -245,25 +245,6 @@ Executors.newSingleThreadExecutor方法创建，它只要一个核心线程，�
 
 现实中，关于多态的例子不胜枚举。比方说按下 F1 键这个动作，如果当前在 Flash 界面下弹出的就是 AS 3 的帮助文档；如果当前在 Word 下弹出的就是 Word 帮助；在 Windows 下弹出的就是 Windows 帮助和支持。同一个事件发生在不同的对象上会产生不同的结果。
 
-## 6.Java中的修饰符
-### 访问修饰符（[参考](http://henry-cong.iteye.com/blog/1140277)）
-
-**public：** Java语言中访问限制最宽的修饰符，一般称之为“公共的”。被其修饰的类、属性以及方法不
-　　　　　仅可以跨类访问，而且允许跨包（package）访问。
-**private:** Java语言中对访问权限限制的最窄的修饰符，一般称之为“私有的”。被其修饰的类、属性以
-　　　　　及方法只能被该类的对象访问，其子类不能访问，更不能允许跨包访问。
-**protect:** 介于public 和 private 之间的一种访问修饰符，一般称之为“保护形”。被其修饰的类、
-　　　　　属性以及方法只能被类本身的方法及子类访问，即使子类在不同的包中也可以访问。
-**default:** 即不加任何访问修饰符，通常称为“默认访问模式“。该模式下，只允许在同一个包中进行访
-　　　　　问。
-     
-## 类的加载机制 ([参考](http://www.jianshu.com/p/061274672c44))
-
-**双亲委派模型：** 如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），子加载器才会尝试自己去加载。
-
-**自上而下的加载器顺序：** Bootstrap ClassLoader(启动类加载器)，Extension ClassLoader(扩展类加载器)，Applicaiton ClassLoader(应用程序类加载器)，User ClassLoader（用户自己实现的加载器） 
-![](http://upload-images.jianshu.io/upload_images/689802-bc4898e54c6ee6fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 ### 多态存在的三个必要条件
 
 * 一、要有继承；
@@ -288,6 +269,25 @@ Executors.newSingleThreadExecutor方法创建，它只要一个核心线程，�
 * 静态内部类不需要有指向外部类的引用，但非静态内部类需要持有对外部类的引用
 * 非静态内部类能够访问外部类的静态和非静态成员，静态类不能访问外部类的非静态成员，它只能访问外部类的静态成员
 * 一个非静态内部类不能脱离外部类实体被创建,而静态内部类不需要外部类的对象就可创建。
+
+## 7.Java中的修饰符
+### 访问修饰符（[参考](http://henry-cong.iteye.com/blog/1140277)）
+
+**public：** Java语言中访问限制最宽的修饰符，一般称之为“公共的”。被其修饰的类、属性以及方法不
+　　　　　仅可以跨类访问，而且允许跨包（package）访问。
+**private:** Java语言中对访问权限限制的最窄的修饰符，一般称之为“私有的”。被其修饰的类、属性以
+　　　　　及方法只能被该类的对象访问，其子类不能访问，更不能允许跨包访问。
+**protect:** 介于public 和 private 之间的一种访问修饰符，一般称之为“保护形”。被其修饰的类、
+　　　　　属性以及方法只能被类本身的方法及子类访问，即使子类在不同的包中也可以访问。
+**default:** 即不加任何访问修饰符，通常称为“默认访问模式“。该模式下，只允许在同一个包中进行访
+　　　　　问。
+     
+## 8.类的加载机制 ([参考](http://www.jianshu.com/p/061274672c44))
+
+**双亲委派模型：** 如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），子加载器才会尝试自己去加载。
+
+**自上而下的加载器顺序：** Bootstrap ClassLoader(启动类加载器)，Extension ClassLoader(扩展类加载器)，Applicaiton ClassLoader(应用程序类加载器)，User ClassLoader（用户自己实现的加载器） 
+![](http://upload-images.jianshu.io/upload_images/689802-bc4898e54c6ee6fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 ---
@@ -703,7 +703,7 @@ B*树的分裂：
 
 　　在B+树基础上，为非叶子结点也增加链表指针，将结点的最低利用率从1/2提高到2/3；
 
-# 其他 ([](http://www.cnblogs.com/MikeChen/archive/2011/04/22/2024574.html))
+# 其他 ([参考](http://www.cnblogs.com/MikeChen/archive/2011/04/22/2024574.html))
 1. ## 了解哪些加密算法
 * 对称加密 ： DES、3DES、Blowfish、IDEA、RC4、RC5、RC6和AES （归纳 DES, RC*, AES）
 * 非对称加密: RSA、ECC（移动设备用）、Diffie-Hellman、El Gamal、DSA
