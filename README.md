@@ -53,7 +53,7 @@ TODO
 * 非静态内部类创建静态实例.(那为啥要用内部类？因为使用内部类能解决多继承问题)
 * Handler造成的内存泄漏(静态+弱引用+removeCallbacksAndMessages)
 * 线程造成的内存泄漏
-* 图片的处理
+* 图片的处理（压缩加缓存，压缩使用BufferedImage类）
 * 资源未关闭造成的内存泄漏(BraodcastReceiver，ContentObserver，File，Cursor，Stream，Bitmap)
 
 **发现：[参考](https://segmentfault.com/a/1190000006884310)**
@@ -146,6 +146,8 @@ standard(默认)、singleTop、singleTask、singleInstance
 * 客户端和服务器之间维持一个TCP/IP长连接，服务器向客户端push　
 * SMS的推送方式:服务器有新内容时，发送一条短信给客户端，客户端收到后从服务器中下载新内容
 
+## MVC和MVP模式 ([参考](https://www.tianmaying.com/tutorial/AndroidMVC))
+* 
 ## Android缓存
 ### 网络缓存（作业帮面试）([参考这里](https://www.2cto.com/kf/201502/376042.html))
 ---
@@ -289,7 +291,8 @@ Executors.newSingleThreadExecutor方法创建，它只要一个核心线程，�
 **自上而下的加载器顺序：** Bootstrap ClassLoader(启动类加载器)，Extension ClassLoader(扩展类加载器)，Applicaiton ClassLoader(应用程序类加载器)，User ClassLoader（用户自己实现的加载器） 
 ![](http://upload-images.jianshu.io/upload_images/689802-bc4898e54c6ee6fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-
+# 9. Java的注解原理
+// TODO
 ---
 # 网络相关
 ---
@@ -703,8 +706,8 @@ B*树的分裂：
 
 　　在B+树基础上，为非叶子结点也增加链表指针，将结点的最低利用率从1/2提高到2/3；
 
-# 其他 ([参考](http://www.cnblogs.com/MikeChen/archive/2011/04/22/2024574.html))
-1. ## 了解哪些加密算法
+# 其他 
+1. ## 了解哪些加密算法 ([参考](http://www.cnblogs.com/MikeChen/archive/2011/04/22/2024574.html))
 * 对称加密 ： DES、3DES、Blowfish、IDEA、RC4、RC5、RC6和AES （归纳 DES, RC*, AES）
 * 非对称加密: RSA、ECC（移动设备用）、Diffie-Hellman、El Gamal、DSA
 * Hash算法加密（不可逆向解密）：MD2、MD4、MD5、HAVAL、SHA
