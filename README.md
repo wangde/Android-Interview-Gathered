@@ -148,8 +148,8 @@ standard(默认)、singleTop、singleTask、singleInstance
 
 ## MVC和MVP模式 ([参考](https://www.tianmaying.com/tutorial/AndroidMVC))
 * 
-## Android缓存
-### 网络缓存（作业帮面试）([参考这里](https://www.2cto.com/kf/201502/376042.html))
+## Looper中的死循环
+// TODO
 ---
 # Java相关
 ---
