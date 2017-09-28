@@ -293,6 +293,10 @@ Executors.newSingleThreadExecutor方法创建，它只要一个核心线程，�
 
 # 9. Java的注解原理
 // TODO
+# 10. Java集合框架图
+
+![](https://uploadfiles.nowcoder.com/images/20160801/740942_1470042423855_86F5A9F9F791DD7EA7C96F158F0FEA87)
+
 ---
 # 网络相关
 ---
