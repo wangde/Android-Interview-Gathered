@@ -150,6 +150,27 @@ standard(默认)、singleTop、singleTask、singleInstance
 * 
 ## Looper中的死循环
 // TODO
+
+## Android HandlerThread
+### 什么是HandlerThread
+HandlerThread本质就是普通的Thread,只不过内部建立了Looper。
+
+* 创建一个HandlerThread
+`mThread = new HandlerThread("name");`
+
+* 启动一个HandlerThread
+`mThread.start();`
+
+* 退出循环，Looper通过调用loop方法驱动消息循环进行，从MessageQueue中阻塞式取出消息，然后由Handler处理该消息，周而复始。
+
+有两种方法来退出循环。
+`mThread.quit();`
+`mThread.quitSafely();`
+#### quit()和quitSafely()区别
+* 调用Looper的quit方法时，执行MessageQueue中的removeAllMessagesLocked方法，该方法把MessageQueue消息池中所有消息全部清空。
+
+* 调用Looper的quitSafely方法，实际上执行了MessageQueue中removeAllFutureMessagesLocked方法，该方法仅清空MessageQueue消息池中的延迟消息，并将非延迟消息交给Handler处理。
+* quit方法在API 1就存在了，quitSafely在API 18才加入进来
 ---
 # Java相关
 ---
